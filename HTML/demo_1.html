@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <meta charset="utf-8" />
+        <title></title>
+        <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+            <script src="http://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+            <style type="text/css">
+                .box {border: 1px solid #f00; min-height: 50px;}
+                </style>
+            </head>
+    
+    <body>
+        <div class="box"></div>
+        <script type="text/javascript">
+            function setupWebViewJavascriptBridge(callback) {
+                if(window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
+                if(window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
+                window.WVJBCallbacks = [callback];
+                var WVJBIframe = document.createElement('iframe');
+                WVJBIframe.style.display = 'none';
+                WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';
+                document.documentElement.appendChild(WVJBIframe);
+                setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
+            }
+        setupWebViewJavascriptBridge(function(bridge) {
+                                     function test(){
+                                     $('.box').text('111');
+                                     }
+                                     //				$('.demo-btn').click(function() {
+                                     //					var data = { 'title': '标题11111', 'content': '内容111', 'diaryUrl': 'http://www.baidu.com', 'picurl': 'http://www.vvgong.com/ico/wx.jpg' }
+                                     //					bridge.callHandler('testObjcCallback', data, function(response) {
+                                     //						
+                                     //					});
+                                     //				});
+                                     
+                                     bridge.registerHandler('testJavascriptHandler', function(data, responseCallback) {
+                                                            var responseData = { 'Javascript Says':'Right back atcha!' }
+                                                            responseCallback(responseData)
+                                                            test();
+                                                            })
+                                     });
+                                     
+            </script>
+    </body>
+    
+</html>
